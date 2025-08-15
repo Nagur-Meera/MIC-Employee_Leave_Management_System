@@ -58,7 +58,31 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     console.log('AuthContext login called with:', email); // Debug log
     try {
-      const response = await api.post('/auth/login', { email, password });
+      // First try regular login
+      let response;
+      
+      try {
+        console.log('Attempting regular login...');
+        response = await api.post('/auth/login', { email, password });
+      } catch (regularLoginError) {
+        console.log('Regular login failed:', regularLoginError.message);
+        
+        // If the main login fails, try the fallback demo login endpoint
+        if (email === 'admin@mic.edu') {
+          console.log('Attempting demo login fallback...');
+          try {
+            response = await api.post('/demo-login', { email, password });
+            console.log('Demo login successful!');
+          } catch (demoLoginError) {
+            console.error('Demo login also failed:', demoLoginError);
+            throw demoLoginError; // Re-throw if demo login also fails
+          }
+        } else {
+          // If not the demo user, re-throw the original error
+          throw regularLoginError;
+        }
+      }
+      
       const { user, token } = response.data.data;
       
       localStorage.setItem('token', token);
