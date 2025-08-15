@@ -6,9 +6,12 @@ const isDevelopment = import.meta.env.DEV || window.location.hostname === 'local
 // Get API URL from environment variable or use default values
 const apiUrl = import.meta.env.VITE_API_URL;
 
-// Use direct backend URL in development to avoid CORS/proxy issues
-const baseURL = isDevelopment 
-  ? 'http://localhost:5000/api'  // Direct to backend in development
+// Use the deployed API URL for both development and production
+// This is useful when you want to develop against the live API
+const useLocalBackend = false; // Set this to true only when running backend locally
+
+const baseURL = useLocalBackend && isDevelopment
+  ? 'http://localhost:5000/api'  // Only use local backend if explicitly enabled
   : apiUrl || 'https://mic-employee-leave-management-syste.vercel.app/api';  // Use deployed backend URL
 
 console.log('API configured with baseURL:', baseURL);

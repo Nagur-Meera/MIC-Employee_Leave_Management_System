@@ -23,7 +23,10 @@ const corsOrigins = [
   'https://mic-elms.vercel.app',
   'https://mic-elms-frontend.vercel.app',
   'http://localhost:5173',
-  'http://127.0.0.1:5173'
+  'http://127.0.0.1:5173',
+  'https://mic-elms-frontend.vercel.app',
+  'https://mic-employee-leave-management-system-n2buo4zih.vercel.app',
+  '*'  // Allow all origins during testing - remove this in production
 ];
 
 app.use(cors({
