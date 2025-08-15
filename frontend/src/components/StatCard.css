@@ -1,0 +1,88 @@
+/* Dashboard Statistics Card Styles */
+.dashboard-stat-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  min-width: 240px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.dashboard-stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+/* Icon background colors based on stat type */
+.employees-icon {
+  background-color: var(--mic-deep-blue);
+  color: white;
+}
+
+.hods-icon {
+  background-color: var(--mic-logo-yellow);
+  color: var(--mic-black);
+}
+
+.pending-icon {
+  background-color: var(--mic-logo-yellow);
+  color: var(--mic-black);
+}
+
+.approved-icon {
+  background-color: var(--mic-logo-green);
+  color: white;
+}
+
+.rejected-icon {
+  background-color: var(--mic-bright-red);
+  color: white;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--mic-gray-600);
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--mic-black);
+  line-height: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-stat-card {
+    min-width: 100%;
+  }
+  
+  .stat-icon-container {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .stat-value {
+    font-size: 1.75rem;
+  }
+}
