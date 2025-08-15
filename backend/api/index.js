@@ -82,6 +82,17 @@ app.get('/api', (req, res) => {
   });
 });
 
+// Root endpoint handler - important for Vercel deployment
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'MIC ELMS API is running',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    documentation: '/api'
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -94,6 +105,7 @@ app.use((err, req, res, next) => {
 
 // 404 handler - must be last
 app.use('*', (req, res) => {
+  console.log(`404 Not Found: ${req.originalUrl}`);
   res.status(404).json({ 
     success: false, 
     message: 'Route not found',
@@ -102,4 +114,8 @@ app.use('*', (req, res) => {
 });
 
 // For Vercel serverless functions, we need to export a handler function
-module.exports = app;
+// Use a function-style export that Vercel expects
+module.exports = (req, res) => {
+  // This ensures that the Express app handles all requests correctly in the serverless environment
+  return app(req, res);
+};
