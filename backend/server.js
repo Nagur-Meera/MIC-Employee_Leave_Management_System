@@ -3,7 +3,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-require('dotenv').config({ path: './config.env' });
+const fs = require('fs');
+const path = require('path');
+
+// Try to load config from config.env, fall back to .env if that doesn't exist
+const configPath = fs.existsSync(path.resolve(__dirname, './config.env')) 
+  ? './config.env' 
+  : './.env';
+require('dotenv').config({ path: configPath });
 
 const app = express();
 
@@ -19,7 +26,7 @@ app.use(limiter);
 
 // CORS configuration
 const corsOrigins = process.env.NODE_ENV === 'production' 
-  ? [process.env.CORS_ORIGIN || 'https://mic-elms.vercel.app'] 
+  ? [process.env.CORS_ORIGIN || 'https://mic-employee-leave-management-syste.vercel.app', 'https://mic-elms.vercel.app'] 
   : ['http://localhost:5173', 'http://127.0.0.1:5173'];
 
 app.use(cors({
@@ -79,8 +86,14 @@ app.use('*', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📊 Environment: ${process.env.NODE_ENV}`);
-  console.log(`🔗 API URL: http://localhost:${PORT}/api`);
-}); 
+// Only start the server if not in Vercel (serverless) environment
+if (process.env.NODE_ENV !== 'production' || process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📊 Environment: ${process.env.NODE_ENV}`);
+    console.log(`🔗 API URL: http://localhost:${PORT}/api`);
+  });
+}
+
+// Export the Express app for Vercel
+module.exports = app; 
