@@ -1,19 +1,26 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "index.js"
+      "dest": "/api"
+    },
+    {
+      "src": "/(.*\\.(js|css|html|png|jpg|jpeg|svg|ico))",
+      "dest": "/public/$1"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "index.js"
+      "dest": "/api"
     }
   ],
   "env": {

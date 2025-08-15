@@ -26,7 +26,11 @@ app.use(limiter);
 
 // CORS configuration
 const corsOrigins = process.env.NODE_ENV === 'production' 
-  ? [process.env.CORS_ORIGIN || 'https://mic-employee-leave-management-syste.vercel.app', 'https://mic-elms.vercel.app'] 
+  ? [
+      process.env.CORS_ORIGIN || 'https://mic-employee-leave-management-syste.vercel.app', 
+      'https://mic-elms.vercel.app',
+      'https://mic-elms-frontend.vercel.app'
+    ] 
   : ['http://localhost:5173', 'http://127.0.0.1:5173'];
 
 app.use(cors({
@@ -37,6 +41,9 @@ app.use(cors({
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI, {
@@ -64,6 +71,11 @@ app.get('/api/health', (req, res) => {
     message: 'MIC ELMS API is running',
     timestamp: new Date().toISOString()
   });
+});
+
+// Root route handler - for when someone accesses the root of the API
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Error handling middleware

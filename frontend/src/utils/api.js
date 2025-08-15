@@ -9,7 +9,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 // Use direct backend URL in development to avoid CORS/proxy issues
 const baseURL = isDevelopment 
   ? 'http://localhost:5000/api'  // Direct to backend in development
-  : apiUrl || 'https://mic-employee-leave-management-syste.vercel.app/api';  // Use deployed backend URL
+  : apiUrl || 'https://mic-elms-backend.vercel.app/api';  // Use deployed backend URL
 
 console.log('API configured with baseURL:', baseURL);
 
