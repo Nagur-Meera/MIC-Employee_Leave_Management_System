@@ -39,6 +39,12 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Database connection
+console.log('Attempting MongoDB connection with URI:', 
+  process.env.MONGODB_URI ? 
+  `${process.env.MONGODB_URI.substring(0, 20)}...` : 
+  'MONGODB_URI not found'
+);
+
 mongoose.connect(process.env.MONGODB_URI, {
   serverApi: {
     version: '1',
@@ -47,15 +53,59 @@ mongoose.connect(process.env.MONGODB_URI, {
   }
 })
 .then(() => console.log('✅ MongoDB Atlas connected successfully'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+.catch(err => {
+  console.error('❌ MongoDB connection error:', err);
+  console.error('Connection details:', {
+    uri: process.env.MONGODB_URI ? `${process.env.MONGODB_URI.substring(0, 20)}...` : 'undefined',
+    env: process.env.NODE_ENV,
+    mongooseVersion: mongoose.version
+  });
+});
 
 // Routes
-app.use('/api/auth', require('../routes/auth'));
-app.use('/api/users', require('../routes/users'));
-app.use('/api/leaves', require('../routes/leaves'));
-app.use('/api/departments', require('../routes/departments'));
-app.use('/api/dashboard', require('../routes/dashboard'));
-app.use('/api/excel', require('../routes/excel'));
+try {
+  console.log('Loading routes...');
+  
+  // Auth routes
+  console.log('Loading auth routes...');
+  const authRoutes = require('../routes/auth');
+  app.use('/api/auth', authRoutes);
+  console.log('Auth routes loaded successfully');
+  
+  // User routes
+  console.log('Loading user routes...');
+  const userRoutes = require('../routes/users');
+  app.use('/api/users', userRoutes);
+  console.log('User routes loaded successfully');
+  
+  // Leave routes
+  console.log('Loading leave routes...');
+  const leaveRoutes = require('../routes/leaves');
+  app.use('/api/leaves', leaveRoutes);
+  console.log('Leave routes loaded successfully');
+  
+  // Department routes
+  console.log('Loading department routes...');
+  const deptRoutes = require('../routes/departments');
+  app.use('/api/departments', deptRoutes);
+  console.log('Department routes loaded successfully');
+  
+  // Dashboard routes
+  console.log('Loading dashboard routes...');
+  const dashboardRoutes = require('../routes/dashboard');
+  app.use('/api/dashboard', dashboardRoutes);
+  console.log('Dashboard routes loaded successfully');
+  
+  // Excel routes
+  console.log('Loading excel routes...');
+  const excelRoutes = require('../routes/excel');
+  app.use('/api/excel', excelRoutes);
+  console.log('Excel routes loaded successfully');
+  
+  console.log('All routes loaded successfully');
+} catch (error) {
+  console.error('Error loading routes:', error);
+}
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

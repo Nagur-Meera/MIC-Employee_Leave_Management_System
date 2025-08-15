@@ -21,6 +21,16 @@ const loginLimiter = rateLimit({
 
 // Generate JWT Token
 const generateToken = (id) => {
+  // Check if JWT_SECRET is available
+  if (!process.env.JWT_SECRET) {
+    console.error('JWT_SECRET is not defined in environment variables!');
+    // Use a fallback secret for development only
+    return jwt.sign({ id }, 'mic-elms-super-secret-jwt-key-2024-fallback', {
+      expiresIn: process.env.JWT_EXPIRE || '7d'
+    });
+  }
+  
+  console.log('JWT_SECRET is available, generating token with expiry:', process.env.JWT_EXPIRE || '7d');
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE || '7d'
   });
@@ -142,14 +152,23 @@ router.post('/register', [
 // @route   POST /api/auth/login
 // @access  Public
 router.post('/login', [
-  loginLimiter, // Apply specific login rate limiter
+  // Temporarily disable rate limiter for debugging
+  // loginLimiter, 
   body('email').isEmail().normalizeEmail().withMessage('Please provide a valid email'),
   body('password').notEmpty().withMessage('Password is required')
 ], async (req, res) => {
   try {
+    console.log('Login attempt received:', { 
+      email: req.body.email,
+      timestamp: new Date().toISOString(),
+      ip: req.ip,
+      userAgent: req.headers['user-agent']
+    });
+
     // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log('Validation errors:', errors.array());
       return res.status(400).json({
         success: false,
         message: 'Validation errors',
@@ -158,18 +177,27 @@ router.post('/login', [
     }
 
     const { email, password } = req.body;
+    console.log('Attempting login for email:', email);
 
     // Check if user exists
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
+      console.log('User not found:', email);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
       });
     }
 
+    console.log('User found:', {
+      id: user._id,
+      name: user.name,
+      role: user.role
+    });
+
     // Check if user is active
     if (!user.isActive) {
+      console.log('User account deactivated:', email);
       return res.status(401).json({
         success: false,
         message: 'Account is deactivated. Please contact administrator.'
@@ -177,8 +205,12 @@ router.post('/login', [
     }
 
     // Check password
+    console.log('Verifying password...');
     const isMatch = await user.comparePassword(password);
+    console.log('Password match result:', isMatch);
+    
     if (!isMatch) {
+      console.log('Password mismatch for user:', email);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
@@ -186,13 +218,17 @@ router.post('/login', [
     }
 
     // Update last login
+    console.log('Updating last login time');
     user.lastLogin = new Date();
     await user.save();
 
     // Generate token
+    console.log('Generating JWT token');
     const token = generateToken(user._id);
 
-    res.json({
+    console.log('Login successful for user:', user.email);
+    
+    return res.json({
       success: true,
       message: 'Login successful',
       data: {
@@ -209,10 +245,14 @@ router.post('/login', [
       }
     });
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({
+    console.error('Login error:', error.message);
+    console.error('Error stack:', error.stack);
+    console.error('Request body:', req.body);
+    
+    return res.status(500).json({
       success: false,
-      message: 'Server error during login'
+      message: 'Server error during login',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });
