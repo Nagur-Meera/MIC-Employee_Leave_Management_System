@@ -18,10 +18,13 @@ const demoUser = {
   }
 };
 
-// Generate JWT Token with fallback secret
-const generateToken = (id) => {
+// Generate JWT Token with fallback secret and include user data
+const generateToken = (id, userData) => {
   const secret = process.env.JWT_SECRET || 'mic-elms-super-secret-jwt-key-2024-fallback';
-  return jwt.sign({ id }, secret, {
+  return jwt.sign({ 
+    id,
+    user: userData // Include the user data in the token
+  }, secret, {
     expiresIn: process.env.JWT_EXPIRE || '7d'
   });
 };
@@ -51,8 +54,8 @@ module.exports = (req, res) => {
     
     console.log('Demo login successful');
     
-    // Generate demo token
-    const token = generateToken(demoUser._id);
+    // Generate demo token with user data embedded
+    const token = generateToken(demoUser._id, demoUser);
     
     // Return successful response with token
     return res.json({

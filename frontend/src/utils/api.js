@@ -54,7 +54,6 @@ api.interceptors.request.use(
     console.log('API Request:', {
       url: config.url,
       method: config.method,
-      headers: config.headers,
       hasToken: !!token,
       dataSize
     });

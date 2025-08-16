@@ -48,7 +48,34 @@ export const AuthProvider = ({ children }) => {
       } else {
         console.error('Error message:', error.message);
       }
-      logout();
+      
+      // Instead of logging out immediately, try to extract user data from token
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          // Parse the JWT token (it's in format header.payload.signature)
+          const payload = token.split('.')[1];
+          // The payload is base64 encoded, decode it and parse as JSON
+          const decodedPayload = JSON.parse(atob(payload));
+          
+          console.log('Extracted token payload:', decodedPayload);
+          
+          // If token has user info embedded (from demo login) use that
+          if (decodedPayload.user) {
+            console.log('Using user data from token');
+            setUser(decodedPayload.user);
+          } else {
+            // Only logout if we can't recover any user information
+            console.log('No user data in token, logging out');
+            logout(false); // Pass false to avoid redirect
+          }
+        } else {
+          logout(false); // Pass false to avoid redirect
+        }
+      } catch (tokenError) {
+        console.error('Error parsing token:', tokenError);
+        logout(false); // Pass false to avoid redirect
+      }
     } finally {
       console.log('Setting loading to false');
       setLoading(false);
@@ -123,12 +150,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = (shouldRedirect = true) => {
+    console.log('Logging out, redirect:', shouldRedirect);
     localStorage.removeItem('token');
     delete api.defaults.headers.common['Authorization'];
     setUser(null);
-    navigate('/login');
-    toast.success('Logged out successfully');
+    
+    if (shouldRedirect) {
+      navigate('/login');
+      toast.success('Logged out successfully');
+    }
   };
 
   const register = async (userData) => {
