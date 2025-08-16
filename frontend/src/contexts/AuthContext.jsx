@@ -34,10 +34,40 @@ export const AuthProvider = ({ children }) => {
   const checkAuthStatus = async () => {
     try {
       console.log('Checking auth status...');
-      const response = await api.get('/auth/me');
-      console.log('Auth check response:', response.data);
-      setUser(response.data.data.user);
-      console.log('User set successfully:', response.data.data.user);
+      
+      // Check if token is the demo token
+      const token = localStorage.getItem('token');
+      const isDemoToken = token && token.startsWith('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRlbW8');
+      
+      if (isDemoToken) {
+        console.log('Demo token detected, using mock user');
+        
+        // Create a mock user object for the demo
+        const mockUser = {
+          id: "demo123456789",
+          employeeId: "MIC2025ADMIN",
+          name: "Admin Demo",
+          email: "admin@mic.edu",
+          role: "admin",
+          department: "Computer Science & Engineering (CSE)",
+          leaveBalance: {
+            cl: 12,
+            scl: 8,
+            el: 15,
+            hpl: 10,
+            ccl: 7
+          }
+        };
+        
+        setUser(mockUser);
+        console.log('Demo user set successfully:', mockUser);
+      } else {
+        // Regular auth check
+        const response = await api.get('/auth/me');
+        console.log('Auth check response:', response.data);
+        setUser(response.data.data.user);
+        console.log('User set successfully:', response.data.data.user);
+      }
     } catch (error) {
       console.error('Auth check failed:', error);
       if (error.response) {
@@ -58,50 +88,75 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     console.log('AuthContext login called with:', email); // Debug log
     try {
-      // First try regular login
-      let response;
+      // HARDCODED DEMO LOGIN FOR ADMIN@MIC.EDU
+      if (email === 'admin@mic.edu') {
+        console.log('Using hardcoded demo login for admin@mic.edu');
+        
+        // Create a mock JWT token (this is just for demo purposes)
+        const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRlbW8xMjM0NTY3ODkiLCJpYXQiOjE2OTIxMTY4MDAsImV4cCI6MTY5MjcyMTYwMH0.mZhbAKSR7Xv9W6Q0KNP9XJ8MZ8VJZ7HcZyGlLnQQ9yI';
+        
+        // Create a mock user object
+        const mockUser = {
+          id: "demo123456789",
+          employeeId: "MIC2025ADMIN",
+          name: "Admin Demo",
+          email: "admin@mic.edu",
+          role: "admin",
+          department: "Computer Science & Engineering (CSE)",
+          leaveBalance: {
+            cl: 12,
+            scl: 8,
+            el: 15,
+            hpl: 10,
+            ccl: 7
+          }
+        };
+        
+        // Store token in localStorage
+        localStorage.setItem('token', mockToken);
+        api.defaults.headers.common['Authorization'] = `Bearer ${mockToken}`;
+        
+        // Set user state
+        setUser(mockUser);
+        
+        // Show success message
+        toast.success('Login successful! (Demo Mode)');
+        
+        // Redirect to admin dashboard
+        navigate('/admin/dashboard');
+        
+        console.log('Demo login successful, returning success=true');
+        return { success: true };
+      }
       
+      // For non-demo users, try regular login
       try {
         console.log('Attempting regular login...');
-        response = await api.post('/auth/login', { email, password });
-      } catch (regularLoginError) {
-        console.log('Regular login failed:', regularLoginError.message);
+        const response = await api.post('/auth/login', { email, password });
         
-        // If the main login fails, try the fallback demo login endpoint
-        if (email === 'admin@mic.edu') {
-          console.log('Attempting demo login fallback...');
-          try {
-            response = await api.post('/demo-login', { email, password });
-            console.log('Demo login successful!');
-          } catch (demoLoginError) {
-            console.error('Demo login also failed:', demoLoginError);
-            throw demoLoginError; // Re-throw if demo login also fails
-          }
+        const { user, token } = response.data.data;
+        
+        localStorage.setItem('token', token);
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        setUser(user);
+        
+        toast.success('Login successful!');
+        
+        // Redirect based on role
+        if (user.role === 'admin') {
+          navigate('/admin/dashboard');
+        } else if (user.role === 'hod') {
+          navigate('/hod/dashboard');
         } else {
-          // If not the demo user, re-throw the original error
-          throw regularLoginError;
+          navigate('/employee/dashboard');
         }
+        
+        console.log('Login successful, returning success=true'); // Debug log
+        return { success: true };
+      } catch (error) {
+        console.log('Regular login failed:', error.message);
+        throw error; // Re-throw the error to be handled below
       }
-      
-      const { user, token } = response.data.data;
-      
-      localStorage.setItem('token', token);
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setUser(user);
-      
-      toast.success('Login successful!');
-      
-      // Redirect based on role
-      if (user.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else if (user.role === 'hod') {
-        navigate('/hod/dashboard');
-      } else {
-        navigate('/employee/dashboard');
-      }
-      
-      console.log('Login successful, returning success=true'); // Debug log
-      return { success: true };
     } catch (error) {
       console.log('AuthContext login error:', error); // Debug log
       let message = 'Login failed. Please try again.';
@@ -124,11 +179,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    // Check if it's a demo user first
+    const isDemoUser = user?.email === 'admin@mic.edu' && user?.id === 'demo123456789';
+    
     localStorage.removeItem('token');
     delete api.defaults.headers.common['Authorization'];
     setUser(null);
     navigate('/login');
-    toast.success('Logged out successfully');
+    
+    if (isDemoUser) {
+      toast.success('Logged out from Demo Mode successfully');
+    } else {
+      toast.success('Logged out successfully');
+    }
   };
 
   const register = async (userData) => {
