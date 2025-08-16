@@ -24,18 +24,32 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// CORS configuration
-const corsOrigins = process.env.NODE_ENV === 'production' 
-  ? [
-      process.env.CORS_ORIGIN || 'https://mic-employee-leave-management-syste.vercel.app', 
-      'https://mic-elms.vercel.app',
-      'https://mic-elms-frontend.vercel.app'
-    ] 
-  : ['http://localhost:5173', 'http://127.0.0.1:5173'];
+// Load custom CORS middleware
+const corsMiddleware = require('./middleware/cors');
 
+// Apply custom CORS middleware first
+app.use(corsMiddleware);
+
+// Also apply the cors package as a backup
 app.use(cors({
-  origin: corsOrigins,
-  credentials: true
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, etc)
+    if (!origin) return callback(null, true);
+    callback(null, true); // Allow all origins while custom middleware handles specifics
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'X-Requested-With', 
+    'Accept', 
+    'Accept-Version', 
+    'Content-Length', 
+    'Content-MD5', 
+    'Date', 
+    'X-Api-Version'
+  ]
 }));
 
 // Body parsing middleware
