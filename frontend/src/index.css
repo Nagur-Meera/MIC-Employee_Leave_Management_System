@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import mobile-specific styles */
+@import './mobile.css';
+
 /* MIC College of Technology Official Brand Colors */
 :root {
   /* Primary Brand Colors (Official Website Theme) */

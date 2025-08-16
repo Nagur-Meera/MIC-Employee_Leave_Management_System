@@ -72,75 +72,75 @@ const Login = () => {
            backgroundRepeat: 'no-repeat'
          }}>
       <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.25)' }}></div>
-      <div className="max-w-md w-full space-y-8 relative z-10">
-        {/* MIC College Header */}
+      <div className="max-w-md w-full space-y-6 relative z-10 px-4 sm:px-0">
+        {/* MIC College Header - mobile optimized */}
         <div className="text-center">
-          <div className="mx-auto h-20 w-20 p-2 bg-white rounded-full shadow-lg border-2 border-gray-100">
+          <div className="mx-auto h-16 w-16 sm:h-20 sm:w-20 p-2 bg-white rounded-full shadow-lg border-2 border-gray-100">
             <img 
               src={logo} 
               alt="MIC College Logo" 
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="mt-4 text-2xl font-bold" style={{ color: 'var(--mic-deep-blue)' }}>
+          <h1 className="mt-3 text-xl sm:text-2xl font-bold" style={{ color: 'var(--mic-deep-blue)' }}>
             DVR & Dr. HS MIC College of Technology
           </h1>
-          <p className="text-sm font-medium" style={{ color: 'var(--mic-dark-gray)' }}>
+          <p className="text-xs sm:text-sm font-medium" style={{ color: 'var(--mic-dark-gray)' }}>
             An Autonomous Institution
           </p>
-          <h2 className="mt-4 text-xl font-semibold" style={{ color: 'var(--mic-bright-red)' }}>
+          <h2 className="mt-3 text-lg sm:text-xl font-semibold" style={{ color: 'var(--mic-bright-red)' }}>
             Employee Leave Management System
           </h2>
-          <p className="mt-2 text-sm" style={{ color: 'var(--mic-dark-gray)' }}>
+          <p className="mt-2 text-xs sm:text-sm" style={{ color: 'var(--mic-dark-gray)' }}>
             Sign in to your account to continue
           </p>
         </div>
 
-        {/* Login Form */}
+        {/* Login Form - mobile optimized */}
         <div className="card" style={{ 
           border: '1px solid var(--mic-gray-200)',
           boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-          backgroundColor: 'rgba(255, 255, 255, 0.7)',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
           backdropFilter: 'blur(10px)'
         }}>
-          <div className="card-header" style={{ 
+          <div className="card-header py-3 sm:py-4" style={{ 
             background: 'linear-gradient(135deg, var(--mic-deep-blue), var(--mic-bright-red))',
             color: 'var(--mic-white)',
             borderRadius: '0.5rem 0.5rem 0 0'
           }}>
-            <h3 className="text-lg font-semibold text-center">
+            <h3 className="text-base sm:text-lg font-semibold text-center">
               Sign In to Your Account
             </h3>
           </div>
-          <div className="card-content">
-            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-              {/* Login Error */}
+          <div className="card-content py-4 px-3 sm:px-5">
+            <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit(onSubmit)}>
+              {/* Login Error - mobile friendly */}
               {loginError && (
                 <div style={{ 
                   backgroundColor: 'rgba(211, 47, 47, 0.1)',
                   borderLeft: '4px solid var(--mic-bright-red)',
                   color: 'var(--mic-bright-red)',
-                  padding: '1rem',
+                  padding: '0.75rem',
                   borderRadius: '0.375rem',
                   marginBottom: '1rem'
                 }}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                       </svg>
-                      <div className="font-semibold">
+                      <div className="font-semibold text-sm sm:text-base">
                         {loginError}
                       </div>
                     </div>
                     <button
                       type="button"
                       onClick={clearError}
-                      className="ml-4 hover:opacity-70 focus:outline-none"
+                      className="ml-2 sm:ml-4 hover:opacity-70 focus:outline-none touch-target p-1"
                       style={{ color: 'var(--mic-bright-red)' }}
                       aria-label="Close error message"
                     >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
                     </button>
@@ -223,18 +223,20 @@ const Login = () => {
                 )}
               </div>
 
-              {/* Submit Button */}
-              <div>
+              {/* Submit Button - mobile friendly */}
+              <div className="mt-6">
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="btn btn-lg w-full"
+                  className="btn w-full"
                   style={{
                     background: 'linear-gradient(135deg, var(--mic-bright-red), var(--mic-red-dark))',
                     color: 'var(--mic-white)',
                     border: '1px solid var(--mic-bright-red)',
                     fontWeight: '600',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.2s ease',
+                    minHeight: '48px', // Better touch target
+                    borderRadius: '8px'
                   }}
                   onMouseOver={(e) => {
                     e.target.style.background = 'linear-gradient(135deg, var(--mic-red-dark), var(--mic-bright-red))';
@@ -248,12 +250,12 @@ const Login = () => {
                   }}
                 >
                   {isLoading ? (
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-center">
                       <LoadingSpinner size="sm" className="mr-2" />
-                      Signing in...
+                      <span className="text-base">Signing in...</span>
                     </div>
                   ) : (
-                    'Sign In'
+                    <span className="text-base">Sign In</span>
                   )}
                 </button>
               </div>
@@ -261,9 +263,17 @@ const Login = () => {
           </div>
         </div>
         
-        {/* Footer text */}
-        <div className="text-center">
-          <p className="text-xs text-gray-600" style={{ color: 'var(--mic-white)', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>
+        {/* Footer text - better visibility */}
+        <div className="text-center mt-4">
+          <p className="text-xs text-gray-600" style={{ 
+            color: 'var(--mic-white)', 
+            textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+            fontWeight: 500,
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            borderRadius: '4px',
+            padding: '0.5rem',
+            backdropFilter: 'blur(2px)'
+          }}>
             © {new Date().getFullYear()} DVR & Dr. HS MIC College of Technology
           </p>
         </div>

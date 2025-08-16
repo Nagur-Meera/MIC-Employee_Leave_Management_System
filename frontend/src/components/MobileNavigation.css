@@ -1,0 +1,88 @@
+/* MobileNavigation.css */
+
+/* Hide mobile navigation on larger screens */
+@media (min-width: 769px) {
+  .mobile-bottom-nav {
+    display: none;
+  }
+}
+
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  border-top: 1px solid var(--mic-gray-200);
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  min-width: 60px;
+  border-radius: 0.5rem;
+  color: var(--mic-gray-500);
+  text-decoration: none;
+  flex: 1;
+}
+
+.mobile-nav-item.active {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.mobile-nav-icon {
+  margin-bottom: 0.25rem;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-nav-text {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Role-specific theming */
+.mobile-bottom-nav.admin .mobile-nav-item.active {
+  color: var(--mic-bright-red);
+  background-color: rgba(211, 47, 47, 0.1);
+}
+
+.mobile-bottom-nav.hod .mobile-nav-item.active {
+  color: var(--mic-deep-blue);
+  background-color: rgba(0, 43, 127, 0.1);
+}
+
+.mobile-bottom-nav.employee .mobile-nav-item.active {
+  color: var(--mic-logo-green);
+  background-color: rgba(0, 128, 0, 0.1);
+}
+
+/* Animations */
+.mobile-nav-item {
+  transition: transform 0.2s ease;
+}
+
+.mobile-nav-item:active {
+  transform: scale(0.95);
+}
+
+/* Safe area support for iOS */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .mobile-bottom-nav {
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+  }
+}

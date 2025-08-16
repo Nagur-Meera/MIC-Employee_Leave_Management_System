@@ -1,0 +1,201 @@
+/* ActionButton.css */
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  min-height: 44px; /* Good touch target size */
+}
+
+/* Size variants */
+.action-button.size-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.action-button.size-md {
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+}
+
+.action-button.size-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* Color variants */
+.action-button.variant-primary {
+  background-color: var(--mic-bright-red);
+  color: white;
+  border: none;
+}
+
+.action-button.variant-primary:hover:not(:disabled) {
+  background-color: var(--mic-red-dark);
+}
+
+.action-button.variant-secondary {
+  background-color: var(--mic-deep-blue);
+  color: white;
+  border: none;
+}
+
+.action-button.variant-secondary:hover:not(:disabled) {
+  background-color: var(--mic-blue-dark);
+}
+
+.action-button.variant-success {
+  background-color: var(--mic-logo-green);
+  color: white;
+  border: none;
+}
+
+.action-button.variant-success:hover:not(:disabled) {
+  background-color: var(--mic-green-dark);
+}
+
+.action-button.variant-danger {
+  background-color: var(--mic-bright-red);
+  color: white;
+  border: none;
+}
+
+.action-button.variant-danger:hover:not(:disabled) {
+  background-color: var(--mic-red-dark);
+}
+
+.action-button.variant-warning {
+  background-color: var(--mic-logo-yellow);
+  color: var(--mic-black);
+  border: none;
+}
+
+.action-button.variant-warning:hover:not(:disabled) {
+  background-color: var(--mic-yellow-dark);
+  color: white;
+}
+
+.action-button.variant-default {
+  background-color: white;
+  color: var(--mic-deep-blue);
+  border: 1px solid var(--mic-gray-300);
+}
+
+.action-button.variant-default:hover:not(:disabled) {
+  background-color: var(--mic-gray-100);
+}
+
+/* Full width variant */
+.action-button.full-width {
+  width: 100%;
+}
+
+/* Disabled state */
+.action-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Icon positioning */
+.button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+}
+
+/* Active state */
+.action-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Focus state */
+.action-button:focus-visible {
+  outline: 2px solid var(--mic-bright-red);
+  outline-offset: 2px;
+}
+
+/* Hover animations */
+.action-button:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.action-button:hover:not(:disabled):after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(40, 40);
+    opacity: 0;
+  }
+}
+
+/* Mobile-specific styles */
+@media (max-width: 640px) {
+  .action-button {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .mobile-hidden {
+    display: none;
+  }
+  
+  /* When only icon is shown on mobile */
+  .action-button .button-icon:only-child {
+    margin-right: 0;
+  }
+  
+  /* Improved touch target for mobile */
+  .action-button.size-sm {
+    min-height: 38px;
+  }
+  
+  .action-button.size-md,
+  .action-button.size-lg {
+    min-height: 44px;
+  }
+}
+
+/* Button group styling */
+.action-button-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .action-button-group {
+    flex-wrap: wrap;
+  }
+  
+  .action-button-group .action-button {
+    flex: 1 0 auto;
+  }
+}
