@@ -113,42 +113,7 @@
     animation: fadeIn 0.2s ease-out;
   }
   
-  .mobile-bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.75rem;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 50;
-  }
-  
-  .mobile-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    color: var(--mic-gray-500);
-  }
-  
-  .mobile-nav-item.active {
-    color: var(--mic-bright-red);
-    background-color: rgba(211, 47, 47, 0.1);
-  }
-  
-  .mobile-nav-icon {
-    font-size: 1.25rem;
-    margin-bottom: 0.25rem;
-  }
-  
-  .mobile-nav-text {
-    font-size: 0.7rem;
-    font-weight: 500;
-  }
+  /* Mobile navigation styles moved to MobileNavigation.css */
 }
 
 /* Mobile dashboard layout improvements */

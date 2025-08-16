@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './MobileNavigation.css';
 
@@ -11,6 +11,17 @@ import './MobileNavigation.css';
  */
 const MobileNavigation = ({ items, role = 'employee' }) => {
   const location = useLocation();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
+  
+  // Add event listener to update state on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 769);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   // Check if path is active
   const isActive = (path) => {
@@ -31,6 +42,9 @@ const MobileNavigation = ({ items, role = 'employee' }) => {
     }
   };
 
+  // Only render on mobile screens
+  if (!isMobile) return null;
+  
   return (
     <nav className="mobile-bottom-nav">
       {items.map((item) => (

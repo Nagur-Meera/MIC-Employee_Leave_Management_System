@@ -265,7 +265,7 @@ const Login = () => {
         </div>
         
         {/* Footer text - better visibility */}
-        <div className="text-center mt-4">
+  <div className="text-center mt-4 lg:hidden">
           <p className="text-xs text-gray-600" style={{ 
             color: 'var(--mic-white)', 
             textShadow: '0 1px 2px rgba(0,0,0,0.5)',
