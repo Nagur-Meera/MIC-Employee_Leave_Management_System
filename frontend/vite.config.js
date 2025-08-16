@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,4 +15,13 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@images': path.resolve(__dirname, './src/images'),
+    },
+  },
+  publicDir: 'public',
+  // Ensure static assets are copied to the dist folder
+  assetsInclude: ['**/*.jpg', '**/*.png', '**/*.svg'],
 }) 

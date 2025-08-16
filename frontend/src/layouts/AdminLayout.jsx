@@ -18,6 +18,7 @@ import AdminProfile from '../pages/admin/Profile';
 import ExcelUpload from '../pages/admin/ExcelUpload';
 import MobileNavigation from '../components/MobileNavigation';
 import logo from '../logo/image.png';
+import { backgroundImages } from '../utils/backgroundImages';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -36,7 +37,7 @@ const AdminLayout = () => {
 
   return (
     <div className="min-h-screen relative" style={{
-      backgroundImage: `url('/images/Dashboard.jpg')`,
+      backgroundImage: `url(${backgroundImages.dashboard})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',

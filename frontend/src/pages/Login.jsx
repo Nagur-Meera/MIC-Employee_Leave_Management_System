@@ -5,6 +5,7 @@ import { Eye, EyeOff, Building2, Mail, Lock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import logo from '../logo/image.png';
+import { backgroundImages } from '../utils/backgroundImages';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -66,7 +67,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative" 
          style={{ 
-           backgroundImage: `url('/images/Login-page.jpg')`,
+           backgroundImage: `url(${backgroundImages.login})`,
            backgroundSize: 'cover',
            backgroundPosition: 'center',
            backgroundRepeat: 'no-repeat'

@@ -19,6 +19,7 @@ import HODHistory from '../pages/hod/History';
 import HODEmployees from '../pages/hod/Employees';
 import HODProfile from '../pages/hod/Profile';
 import MobileNavigation from '../components/MobileNavigation';
+import { backgroundImages } from '../utils/backgroundImages';
 import logo from '../logo/image.png';
 
 const HODLayout = () => {
@@ -39,7 +40,7 @@ const HODLayout = () => {
 
   return (
     <div className="min-h-screen relative" style={{
-      backgroundImage: `url('/images/Dashboard.jpg')`,
+      backgroundImage: `url(${backgroundImages.dashboard})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',

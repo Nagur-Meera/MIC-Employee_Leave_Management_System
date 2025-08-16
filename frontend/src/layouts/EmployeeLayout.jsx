@@ -17,6 +17,7 @@ import EmployeeHistory from '../pages/employee/History';
 import EmployeeProfile from '../pages/employee/Profile';
 import MobileNavigation from '../components/MobileNavigation';
 import logo from '../logo/image.png';
+import { backgroundImages } from '../utils/backgroundImages';
 
 const EmployeeLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -34,7 +35,7 @@ const EmployeeLayout = () => {
 
   return (
     <div className="min-h-screen relative" style={{
-      backgroundImage: `url('/images/Dashboard.jpg')`,
+      backgroundImage: `url(${backgroundImages.dashboard})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
