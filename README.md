@@ -1,10 +1,13 @@
 ﻿# MIC Employee Leave Management System (MIC-ELMS)
 
 ![MIC-ELMS Logo](./frontend/src/logo/image.png)
-
+<br>
 **Live Link**: https://mic-employee-leave-management-syste-ebon.vercel.app/
+<br>
 **Demo Credentials:** 
-**Email :**admin@mic.edu
+<br>
+**Email :** admin@mic.edu
+<br>
 **Password:** admin123
 ## 📱 Mobile-Friendly Employee Leave Management System
 
@@ -224,4 +227,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 📞 Support
 
 For support, email support@mic-elms.com or create an issue in the repository.
+
 
