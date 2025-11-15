@@ -216,17 +216,10 @@ npm test
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## 👨‍💻 Developers
 
 - Team MIC - Developed for educational institutions to streamline leave management processes
 
-## 📞 Support
-
-For support, email support@mic-elms.com or create an issue in the repository.
 
 
 
