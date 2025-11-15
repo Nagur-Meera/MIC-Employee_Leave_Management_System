@@ -1,7 +1,7 @@
 {
   "name": "mic-elms",
   "version": "1.0.0",
-  "description": "MIC College Employee Leave Management System",
+  "description": "A comprehensive mobile-friendly MERN stack application for managing employee leave requests in educational institutions. Features role-based access control (Admin, HOD, Employee), multi-level approval workflow, real-time status tracking, analytics dashboard, and Excel report generation. Built with React 18, Node.js, Express, and MongoDB.",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
