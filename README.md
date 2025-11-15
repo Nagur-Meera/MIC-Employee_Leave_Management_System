@@ -8,7 +8,7 @@
 <br>
 **Email :** admin@mic.edu
 <br>
-**Password:** admin123
+**Password:** password123
 ## 📱 Mobile-Friendly Employee Leave Management System
 
 A comprehensive and responsive web application for managing employee leave requests, designed specifically for educational institutions. The system features role-based access control with separate interfaces for administrators, department heads (HODs), and employees.
@@ -227,5 +227,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 📞 Support
 
 For support, email support@mic-elms.com or create an issue in the repository.
+
 
 
