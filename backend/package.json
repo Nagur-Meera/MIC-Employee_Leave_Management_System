@@ -1,7 +1,7 @@
 {
   "name": "mic-elms-backend",
   "version": "1.0.0",
-  "description": "Backend API for MIC ELMS",
+  "description": "RESTful API backend for MIC Employee Leave Management System. Provides secure JWT authentication, role-based access control, leave management with multi-level approval workflow, department administration, analytics endpoints, and Excel report generation. Built with Node.js, Express, MongoDB, and deployed as serverless functions on Vercel.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

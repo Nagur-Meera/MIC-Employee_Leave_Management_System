@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "Responsive React frontend for MIC Employee Leave Management System. Features modern UI with Tailwind CSS, role-based dashboards, intuitive leave application forms with document upload, real-time status tracking, analytics visualizations with Recharts, and mobile-optimized responsive design. Built with React 18, Vite, React Router 6, and Context API for state management.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
